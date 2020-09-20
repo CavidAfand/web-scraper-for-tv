@@ -1,0 +1,16 @@
+server:
+  port: 1111
+
+spring:
+  datasource:
+    url:  jdbc:mysql://localhost:3306/tv_scrap?createDatabaseIfNotExist=true&zeroDateTimeBehaviour=covertToNull&useSSL=false
+    username: developer
+    password: mysql_server
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+tv:
+  view:
+    number-per-page: 15

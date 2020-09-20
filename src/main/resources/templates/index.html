@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Əsas səhifə</title>
+    <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}">
+
+    <!-- jQuery library -->
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+
+    <!-- Popper JS -->
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js}"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <style>
+        .filter-header {
+            font-size: 20px;
+            color:red;
+        }
+
+        @media screen and (min-width: 715px) {
+            .right-line {
+                border-right: 1px solid black;
+            }
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12" style="background-color: rgb(133, 162, 221); padding:3px;">
+                <h2 style="margin-left: 22px; width: 85%;">Sizin televizor axtarışçınız</h2>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left part - filter part -->
+            <div class="col-md-6" th:class="right-line" style="padding-left: 10px; padding-right: 10px;">
+                <br>
+                <h3>İstəyinizə görə televizoru axtarın</h3>
+                <form th:action="@{/action/filter}" method="post" th:object="${tvModel}">
+                    <div class="row">
+
+                        <!-- price range -->
+                        <div class="col-md-6">
+                            <div>
+                                <span class="filter-header"><b>Qiymət aralığı</b></span>
+                                <div class="form-group">
+                                    <label for="startPrice">Başlanğıc qiymət</label>
+                                    <input type="number" th:field="*{startPrice}" class="form-control" id="startPrice" placeholder="Başlanğıc qiyməti bura daxil et">
+                                </div>
+                                <div class="form-group">
+                                    <label for="startPrice">Son qiymət</label>
+                                    <input type="number" th:field="*{endPrice}" class="form-control" id="startPrice" placeholder="Son qiyməti bura daxil et">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- price range end -->
+
+                        <!-- diagonal range -->
+                        <div class="col-md-6">
+                            <div>
+                                <span class="filter-header"><b>Diaqonal (sm-lə)</b></span>
+                                <div class="form-group">
+                                    <label for="startDiagonal">Başlanğıc ölçü</label>
+                                    <input type="number" th:field="*{startDiagonal}" class="form-control" id="startDiagonal" placeholder="Başlanğıc diaqonal ölçüsünü daxil et">
+                                </div>
+                                <div class="form-group">
+                                    <label for="endDiagonal">Son ölçü</label>
+                                    <input type="number" th:field="*{endDiagonal}" class="form-control" id="endDiagonal" placeholder="Son diaqonal ölçüsünü daxil et">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- diagonal range end -->
+
+                    </div>
+                    <div class="row">
+
+                        <!-- tv brands -->
+                        <div class="col-md-3">
+                            <div>
+                                <span class="filter-header"><b>Brendlər</b></span><br>
+                                <th:block th:each="tv_brand: ${brandList}">
+                                    <input type="checkbox" th:field="*{brand}" th:value="${tv_brand}"> <span th:text="${tv_brand}"></span><br>
+                                </th:block>
+                            </div>
+                        </div>
+                        <!-- tv brands end -->
+
+                        <!-- tv resolutions -->
+                        <div class="col-md-3">
+                            <div>
+                                <span class="filter-header"><b>Görüntü imkanları</b></span><br>
+                                <th:block th:each="tv_resolution: ${resolutionList}">
+                                    <th:block th:if="${tv_resolution != null}">
+                                    <input type="checkbox" th:field="*{resolution}" th:value="${tv_resolution}"> <span th:text="${tv_resolution}"></span><br>
+                                    </th:block>
+                                </th:block>
+                            </div>
+                        </div>
+                        <!-- tv resolutions end -->
+
+                        <!-- tv screen types -->
+                        <div class="col-md-3">
+                            <div>
+                                <span class="filter-header"><b>Ekran növləri</b></span><br>
+                                <th:block th:each="tv_screenType: ${screenTypeList}">
+                                    <th:block th:if="${tv_screenType != null}">
+                                        <input type="checkbox" th:field="*{screenType}" th:value="${tv_screenType}"> <span th:text="${tv_screenType}"></span><br>
+                                    </th:block>
+                                </th:block>
+                            </div>
+                        </div>
+                        <!-- tv screen types end -->
+
+                        <!-- tv other functionalities -->
+                        <div class="col-md-3">
+                            <span class="filter-header"><b>Başqa funksiyalar</b></span><br>
+                            <div>
+                                <input type="checkbox" th:field="*{smartTv}" th:value="smartTv"> <span>Smart TV</span>
+                            </div>
+                            <div>
+                                <input type="checkbox" th:field="*{wifi}" th:value="wifi"> <span>Wifi dəstəyi</span>
+                            </div>
+                        </div>
+                        <!-- tv other functionalities -->
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-block btn-primary">Filtirlə</button>
+                            <br><br>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <!-- right part - button part -->
+            <div class="col-md-6">
+                <br>
+                <!-- tv search part -->
+                <form th:action="@{/action/search}" method="post">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="search" placeholder="Televizoru axtar" required>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-search" style="font-size:15px;color:white;"></i></button>
+                        </div>
+                    </div>
+                </form>
+                <!-- tv search part end -->
+
+                <a href="/tvs?mode=1&page=1" class="btn btn-block btn-warning">Ucuzdan bahaya baxın</a>
+                <br>
+                <a href="/tvs?mode=2&page=1" class="btn btn-block btn-warning">Bahadan ucuza baxın</a>
+            </div>
+            <br><br>
+        </div>
+    </div>
+</body>
+</html>
