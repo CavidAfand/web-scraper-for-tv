@@ -32,7 +32,7 @@ public class IrshadElectronicsService implements Runnable {
                 document = Jsoup.connect("https://irshadelectronics.az/az/tv-ve-audio/televizorlar/?sort=1&p=" + (pageCount++)).get();
             }
             catch (IOException ex) {
-                log.error("Error happened when html page https://irshadelectronics.az/az/tv-ve-audio/televizorlar/?sort=1&p=" + (pageCount-1) + " was loaded");
+                log.error("Error happened when html page https://irshadelectronics.az/az/tv-ve-audio/televizorlar/?sort=1&p=" + (pageCount-1) + " was loaded. Error: " + ex.toString());
             }
 
             List<Element> tvBlocksHtml = document.select("figure.pr_self");
