@@ -76,7 +76,7 @@ public class ActionController {
         if (searchString.toLowerCase().contains("televizor")) searchString.replace("televizor", "").trim();
 
         // found tvs
-        List<Tv> tvList = tvService.findTvsByName(searchString, id);
+        List<Tv> tvList = tvService.findTvsByName(searchString.toUpperCase(), id);
 
         // number of all found tvs
         int numberOfTvs = tvService.getNumberOfFoundTvs(searchString);

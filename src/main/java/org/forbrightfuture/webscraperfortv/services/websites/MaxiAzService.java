@@ -106,7 +106,7 @@ public class MaxiAzService implements Runnable{
 
             return Tv.builder()
                     .brand(tvBrand)
-                    .name(tvName)
+                    .name(tvName.toUpperCase())
                     .resolution(tvResolution)
                     .screenType(screenType)
                     .discountInCashPayment(0.0f)

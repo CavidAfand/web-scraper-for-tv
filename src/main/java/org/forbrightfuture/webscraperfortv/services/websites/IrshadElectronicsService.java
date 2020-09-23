@@ -100,7 +100,7 @@ public class IrshadElectronicsService implements Runnable {
 
             return Tv.builder().
                     brand(tvBrand)
-                    .name(tvName)
+                    .name(tvName.toUpperCase())
                     .tvLink(url)
                     .price(price)
                     .imageLink(imageLink)

@@ -108,7 +108,7 @@ public class KontaktHomeService implements Runnable {
 
             return Tv.builder()
                     .brand(tvBrand)
-                    .name(tvName)
+                    .name(tvName.toUpperCase())
                     .screenType(screenType)
                     .tvLink(tvLink)
                     .imageLink(imageLink)

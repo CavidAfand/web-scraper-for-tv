@@ -114,7 +114,7 @@ public class BakuElectronicsService implements Runnable {
             return Tv.builder()
                     .brand(tvBrand)
                     .tvLink(tvLink)
-                    .name(tvName)
+                    .name(tvName.toUpperCase())
                     .price(price)
                     .discountInCashPayment(discount)
                     .diagonalByInch(diagonalByInch)

@@ -97,6 +97,8 @@ public class TvService {
         bakuElectronicsService.getTvList().stream().forEach(i -> tvList.add(i));
         maxiAzService.getTvList().stream().forEach(i -> tvList.add(i));
 
+        log.info(tvList.size() + " tvs was got from websites");
+
         return tvList;
     }
 
