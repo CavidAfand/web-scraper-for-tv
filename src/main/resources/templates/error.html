@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${errorMessage}"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpg" th:href="@{/favicon.jpg}">
+
+    <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}">
+
+    <!-- jQuery library -->
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+
+    <!-- Popper JS -->
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js}"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
+</head>
+<body>
+
+    <!-- header start -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12" style="background-color: rgb(133, 162, 221); padding:3px;">
+                <h2 style="margin-left: 22px; width: 85%; font-family: 'Amita';"><a style="text-decoration: none; color: black;" href="/">Sizin televizor axtarışçınız</a></h2>
+            </div>
+        </div>
+    </div>
+    <!-- header end -->
+
+    <h1 style="margin-top: 12px; text-align: center" th:text="${errorMessage}"></h1>
+    <a href="/" class="btn btn-primary" style="display: block; text-align: center; width: 50%; margin: auto;">Return to main page</a>
+</body>
+</html>

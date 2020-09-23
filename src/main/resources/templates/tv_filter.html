@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Televizorlar - filterləmənin nəticəsi</title>
+    <link rel="icon" type="image/jpg" th:href="@{/favicon.jpg}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}">
+
+    <!-- jQuery library -->
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+
+    <!-- Popper JS -->
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js}"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Amita' rel='stylesheet'>
+
+    <style>
+        .tv-box {
+            /*box-shadow: 2px 2px 3px grey;*/
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- header start -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12" style="background-color: rgb(133, 162, 221); padding:3px;">
+            <h2 style="margin-left: 22px; width: 85%; font-family: 'Amita';"><a style="text-decoration: none; color: black;" href="/">Sizin televizor axtarışçınız</a></h2>
+        </div>
+    </div>
+</div>
+<!-- header end -->
+
+<br>
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- left part begin -->
+        <div class="col-md-2"></div>
+        <!-- left part end -->
+
+        <!-- middle (main) part -->
+        <div class="col-md-8" >
+
+            <!-- tv search part -->
+            <form th:action="@{/action/search}" method="get">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="search" placeholder="Televizoru axtar" required>
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-search" style="font-size:15px;color:white;"></i></button>
+                    </div>
+                </div>
+            </form>
+            <!-- tv search part end -->
+
+            <h4><span th:text="${numberOfAllFoundTvs}"></span> nəticə tapıldı</h4>
+
+            <!-- tvs -->
+            <div class="row">
+                <div class="col-md-4 tv-box" th:each="tv: ${tvList}">
+                    <div class="card " >
+                        <img th:src="@{${tv.imageLink}}" class="card-img-top">
+
+                        <div class="card-body">
+                            <h4 class="card-title" th:text="${tv.name}" style="color: #ff7c00; text-align: center;"></h4>
+
+                            <p class="card-text"><b>Brend: </b><span th:text="${tv.brand}"></span></p>
+                            <p class="card-text"><b>Ekran növü: </b><span th:text="${tv.screenType}"></span></p>
+                            <p class="card-text"><b>Resolution: </b><span th:text="${tv.resolution}"></span></p>
+                            <p class="card-text"><b>Diaqonal: </b><span th:text="${tv.diagonalByInch}"></span>" (<span th:text="${tv.diagonalByCm}"></span>sm)</p>
+                            <p class="card-text"><b>Wifi: </b><span th:if="${tv.wifiSupport == true}">var</span><span th:if="${tv.wifiSupport == false}">yoxdur</span></p>
+                            <p class="card-text"><b>Smart Tv: </b><span th:if="${tv.smartTv == true}">var</span><span th:if="${tv.smartTv == false}">yoxdur</span></p>
+                            <p class="card-text" style="font-size: 18px; color: #443acb;"><b>Nağd alışda endirim: </b><span style="color: #ed4d61" th:text="${tv.discountInCashPayment}"></span> <span style="color: #ed4d61">AZN</span></p>
+                            <p class="card-text" style="font-size: 18px; color: #443acb;"><b>Qiyməti: </b><span style="color: #ed4d61" th:text="${tv.price}"></span> <span style="color: #ed4d61">AZN</span></p>
+
+                            <a th:href="@{${tv.tvLink}}" target="_blank" class="btn btn-primary btn-block">Bu televizor haqqında daha çox öyrən</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- tvs -->
+
+            <!-- pagination -->
+            <div class="col-md-12">
+                <ul class="pagination">
+
+                    <li class="page-item" th:if="${pagination.isHasPreviousPage() == true}">
+                        <a class="page-link" th:href="@{'/action/filter?page=' + ${pagination.previousPageIndex} + ${linkPart}}"><</a>
+                    </li>
+                    <li class="page-item disabled" th:if="${pagination.isPreviousDots() == true}">
+                        <a class="page-link" href="#">...</a>
+                    </li>
+
+                    <th:block th:each="paginationItem: ${pagination.paginationList}">
+                        <th:block th:if="${paginationItem == pagination.activePageIndex}">
+                            <li class="page-item active"><a class="page-link" th:href="@{'/action/filter?page=' + ${pagination.activePageIndex} + ${linkPart}}">
+                                <span th:text="${pagination.activePageIndex}"></span>
+                            </a></li>
+                        </th:block>
+                        <th:block th:if="${paginationItem != pagination.activePageIndex}">
+                            <li class="page-item"><a class="page-link" th:href="@{'/action/filter?page=' + ${paginationItem} + ${linkPart}}">
+                                <span th:text="${paginationItem}"></span>
+                            </a></li>
+                        </th:block>
+                    </th:block>
+
+                    <li class="page-item disabled" th:if="${pagination.isNextDots() == true}">
+                        <a class="page-link" href="#">...</a>
+                    </li>
+                    <li class="page-item" th:if="${pagination.isHasNextPage() == true}">
+                        <a class="page-link" th:href="@{'/action/filter?page=' + ${pagination.nextPageIndex} + ${linkPart}}">></a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- pagination end-->
+
+        </div>
+        <!-- middle (main) part end-->
+
+        <!-- end part begin -->
+        <div class="col-md-2"></div>
+        <!-- end part end-->
+
+    </div>
+</div>
+
+<div style="background-color: rgb(133, 162, 221); height: 30px; width: 100%; margin-top: 10px;"></div>
+</body>
+</html>

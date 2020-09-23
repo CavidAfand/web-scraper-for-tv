@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Əsas səhifə</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpg" th:href="@{/favicon.jpg}">
+
     <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}">
 
     <!-- jQuery library -->
@@ -13,6 +16,7 @@
 
     <!-- Latest compiled JavaScript -->
     <script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
+    <link href='https://fonts.googleapis.com/css?family=Amita' rel='stylesheet'>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <style>
         .filter-header {
@@ -20,42 +24,55 @@
             color:red;
         }
 
-        @media screen and (min-width: 715px) {
-            .right-line {
-                border-right: 1px solid black;
+        .flex-box {
+            display: flex;
+        }
+
+
+        @media screen and (max-width: 768px) {
+
+            .flex-item-1 {
+                order: 2;
+            }
+
+            .flex-item-2 {
+                order: 1;
             }
         }
     </style>
 
 </head>
-<body>
+<body onload="configInput()">
+
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12" style="background-color: rgb(133, 162, 221); padding:3px;">
-                <h2 style="margin-left: 22px; width: 85%;">Sizin televizor axtarışçınız</h2>
+            <div class="col-md-12" style="background-color: rgb(133, 162, 221); padding:8px;">
+                <h2 style="margin-left: 22px; width: 85%; font-family: 'Amita';"><a style="text-decoration: none; color: black;" href="/">Sizin televizor axtarışçınız</a></h2>
             </div>
         </div>
     </div>
+
     <div class="container-fluid">
-        <div class="row">
+        <div class="row flex-box">
             <!-- left part - filter part -->
-            <div class="col-md-6" th:class="right-line" style="padding-left: 10px; padding-right: 10px;">
+            <div class="col-md-6 flex-item-1 right-line" >
                 <br>
                 <h3>İstəyinizə görə televizoru axtarın</h3>
-                <form th:action="@{/action/filter}" method="post" th:object="${tvModel}">
+                <form th:action="@{/action/filter}" method="get">
                     <div class="row">
 
                         <!-- price range -->
                         <div class="col-md-6">
                             <div>
-                                <span class="filter-header"><b>Qiymət aralığı</b></span>
+                                <span class="filter-header"><b>Qiymət aralığı (AZN-lə)</b></span>
                                 <div class="form-group">
                                     <label for="startPrice">Başlanğıc qiymət</label>
-                                    <input type="number" th:field="*{startPrice}" class="form-control" id="startPrice" placeholder="Başlanğıc qiyməti bura daxil et">
+                                    <input type="number" name="startPrice" class="form-control" id="startPrice" required>
+                                    <p id="startPriceValue"></p>
                                 </div>
                                 <div class="form-group">
-                                    <label for="startPrice">Son qiymət</label>
-                                    <input type="number" th:field="*{endPrice}" class="form-control" id="startPrice" placeholder="Son qiyməti bura daxil et">
+                                    <label for="endPrice">Son qiymət</label>
+                                    <input type="number" name="endPrice" class="form-control" id="endPrice" required>
                                 </div>
                             </div>
                         </div>
@@ -67,11 +84,11 @@
                                 <span class="filter-header"><b>Diaqonal (sm-lə)</b></span>
                                 <div class="form-group">
                                     <label for="startDiagonal">Başlanğıc ölçü</label>
-                                    <input type="number" th:field="*{startDiagonal}" class="form-control" id="startDiagonal" placeholder="Başlanğıc diaqonal ölçüsünü daxil et">
+                                    <input type="number" name="startDiagonal" class="form-control" id="startDiagonal" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="endDiagonal">Son ölçü</label>
-                                    <input type="number" th:field="*{endDiagonal}" class="form-control" id="endDiagonal" placeholder="Son diaqonal ölçüsünü daxil et">
+                                    <input type="number" name="endDiagonal" class="form-control" id="endDiagonal" required>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +102,7 @@
                             <div>
                                 <span class="filter-header"><b>Brendlər</b></span><br>
                                 <th:block th:each="tv_brand: ${brandList}">
-                                    <input type="checkbox" th:field="*{brand}" th:value="${tv_brand}"> <span th:text="${tv_brand}"></span><br>
+                                    <input type="checkbox" name="brand" th:value="${tv_brand}"> <span th:text="${tv_brand}"></span><br>
                                 </th:block>
                             </div>
                         </div>
@@ -97,7 +114,7 @@
                                 <span class="filter-header"><b>Görüntü imkanları</b></span><br>
                                 <th:block th:each="tv_resolution: ${resolutionList}">
                                     <th:block th:if="${tv_resolution != null}">
-                                    <input type="checkbox" th:field="*{resolution}" th:value="${tv_resolution}"> <span th:text="${tv_resolution}"></span><br>
+                                    <input type="checkbox" name="resolution" th:value="${tv_resolution}"> <span th:text="${tv_resolution}"></span><br>
                                     </th:block>
                                 </th:block>
                             </div>
@@ -110,7 +127,7 @@
                                 <span class="filter-header"><b>Ekran növləri</b></span><br>
                                 <th:block th:each="tv_screenType: ${screenTypeList}">
                                     <th:block th:if="${tv_screenType != null}">
-                                        <input type="checkbox" th:field="*{screenType}" th:value="${tv_screenType}"> <span th:text="${tv_screenType}"></span><br>
+                                        <input type="checkbox" name="screenType" th:value="${tv_screenType}"> <span th:text="${tv_screenType}"></span><br>
                                     </th:block>
                                 </th:block>
                             </div>
@@ -121,15 +138,15 @@
                         <div class="col-md-3">
                             <span class="filter-header"><b>Başqa funksiyalar</b></span><br>
                             <div>
-                                <input type="checkbox" th:field="*{smartTv}" th:value="smartTv"> <span>Smart TV</span>
+                                <input type="checkbox" name="smartTv" th:value="smartTv"> <span>Smart TV</span>
                             </div>
                             <div>
-                                <input type="checkbox" th:field="*{wifi}" th:value="wifi"> <span>Wifi dəstəyi</span>
+                                <input type="checkbox" name="wifi" th:value="wifi"> <span>Wifi dəstəyi</span>
                             </div>
                         </div>
                         <!-- tv other functionalities -->
                     </div>
-
+                    <br>
                     <div class="row">
                         <div class="col-md-12">
                             <button type="submit" class="btn btn-block btn-primary">Filtirlə</button>
@@ -140,10 +157,10 @@
                 </form>
             </div>
             <!-- right part - button part -->
-            <div class="col-md-6">
+            <div class="col-md-6 flex-item-2">
                 <br>
                 <!-- tv search part -->
-                <form th:action="@{/action/search}" method="post">
+                <form th:action="@{/action/search}" method="get">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" name="search" placeholder="Televizoru axtar" required>
                         <div class="input-group-append">
@@ -160,5 +177,15 @@
             <br><br>
         </div>
     </div>
+
+    <div style="background-color: rgb(133, 162, 221); height: 30px; width: 100%; margin-top: 10px;"></div>
+<script>
+    function configInput() {
+        document.getElementById("startPrice").value = 0;
+        document.getElementById("endPrice").value = 1000000;
+        document.getElementById("startDiagonal").value = 0;
+        document.getElementById("endDiagonal").value = 500;
+    }
+</script>
 </body>
 </html>

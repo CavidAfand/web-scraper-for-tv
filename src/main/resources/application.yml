@@ -1,5 +1,9 @@
 server:
   port: 1111
+  error:
+    whitelabel:
+      enabled: false
+    path: /error
 
 spring:
   datasource:

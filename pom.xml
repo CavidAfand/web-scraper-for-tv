@@ -11,7 +11,7 @@
     <groupId>org.forbrightfuture</groupId>
     <artifactId>web-scrapper-for-tv</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>web-scrapper-for-tv</name>
+    <name>web-scraper-for-tv</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -70,6 +70,12 @@
             <artifactId>jsoup</artifactId>
             <version>1.13.1</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
